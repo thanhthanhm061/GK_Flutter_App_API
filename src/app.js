@@ -1,19 +1,23 @@
 import express from 'express';
-import productRouter from "./routes/product"
+import productRouter from './routes/product';
+import authRouter from './routes/auth'; 
 import { connectDB } from './config/db';
-import dotenv from "dotenv"
+import dotenv from 'dotenv';
 import morgan from 'morgan';
 
 dotenv.config();
+
 const app = express();
 
-//middleware
+// middleware
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
 // connect db
-connectDB(process.env.DB_URI)
+connectDB(process.env.DB_URI);
 
-//routes
-app.use("/api", productRouter)
+// routes
+app.use('/api', productRouter);
+app.use('/api', authRouter);
+
 export const viteNodeApp = app;
