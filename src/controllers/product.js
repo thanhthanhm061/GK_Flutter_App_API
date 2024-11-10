@@ -34,7 +34,7 @@ export const addProducts = async (req, res) => {
 export const deleteProducts = async (req, res) => {
     try {
         const data = await Product.findOneAndDelete({ _id: req.params.id });
-        if (!data) { 
+        if (data.length < 0) { 
             return res.status(404).json({ message: "No product found" });
         }
         res.status(200).json({ message: "Product deleted successfully", data });
@@ -47,7 +47,7 @@ export const updateProducts = async (req, res) => {
     try {
         const data = await Product.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
         console.log("data", data);
-        if (!data) {
+        if (data.length < 0) {
             return res.status(404).json({ message: "No product found" });
         }
         res.status(200).json({ message: "Product updated successfully", data });
