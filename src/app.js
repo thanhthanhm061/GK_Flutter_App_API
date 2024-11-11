@@ -9,19 +9,14 @@ dotenv.config();
 
 const app = express();
 
+
 // middleware
 app.use(express.json());
 app.use(morgan('dev'));
 
 // connect db
-// connectDB(process.env.DB_URI);
-connectDB(process.env.DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 30000, // Thời gian timeout 20 giây
-  })
-  .then(() => console.log("Kết nối thành công tới MongoDB"))
-  .catch((err) => console.error("Lỗi kết nối MongoDB:", err));
+connectDB(process.env.DB_URI)
+
 
 // routes
 app.use('/api', productRouter);
