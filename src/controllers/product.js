@@ -1,41 +1,43 @@
-import Product from "../model/product";
+import Product from "../model/product.js";
 
-export const getProducts =async(req, res) => {
+export const getProducts = async (req, res) => {
     try {
         const data = await Product.find();
-        if (data.length < 0) {
-            return res.status(404).json({ message: "No product"})
+        if (data.length === 0) {
+            return res.status(404).json({ message: "No products found" });
         }
-        res.status(201).json(data);
+        res.status(200).json(data);  // Sử dụng 200 OK cho GET
     } catch (error) {
-        res.status(500).json({ message: error.message})
+        res.status(500).json({ message: error.message });
     }
 };
+
 export const getProductsById = async (req, res) => {
     try {
-        const data = await Product.findOne({ _id: req.params.id});
-        if (data.length < 0) {
-            return res.status(404).json({ message: "No product"})
+        const data = await Product.findOne({ _id: req.params.id });
+        if (!data) {
+            return res.status(404).json({ message: "No product found" });
         }
-        res.status(201).json(data);
+        res.status(200).json(data);  // Sử dụng 200 OK cho GET
     } catch (error) {
-        res.status(500).json({ message: error.message})
+        res.status(500).json({ message: error.message });
     }
 };
+
 export const addProducts = async (req, res) => {
     try {
         const data = await Product(req.body).save();
-        res.status(201).json(data);
+        res.status(201).json(data);  // Sử dụng 201 Created khi tạo mới
     } catch (error) {
-        res.status(500).json({ message: error.message})
+        res.status(500).json({ message: error.message });
     }
 };
 
 export const deleteProducts = async (req, res) => {
     try {
         const data = await Product.findOneAndDelete({ _id: req.params.id });
-        if (data.length < 0) { 
-            return res.status(404).json({ message: "No product found" });
+        if (!data) {
+            return res.status(404).json({ message: "No product found to delete" });
         }
         res.status(200).json({ message: "Product deleted successfully", data });
     } catch (error) {
@@ -46,9 +48,8 @@ export const deleteProducts = async (req, res) => {
 export const updateProducts = async (req, res) => {
     try {
         const data = await Product.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
-        console.log("data", data);
-        if (data.length < 0) {
-            return res.status(404).json({ message: "No product found" });
+        if (!data) {
+            return res.status(404).json({ message: "No product found to update" });
         }
         res.status(200).json({ message: "Product updated successfully", data });
     } catch (error) {

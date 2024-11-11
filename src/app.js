@@ -1,7 +1,7 @@
 import express from 'express';
-import productRouter from './routes/product';
-import authRouter from './routes/auth'; 
-import { connectDB } from './config/db';
+import productRouter from './routes/product.js';  // Thêm phần mở rộng .js
+import authRouter from './routes/auth.js';       // Thêm phần mở rộng .js
+import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 
@@ -20,4 +20,11 @@ connectDB(process.env.DB_URI);
 app.use('/api', productRouter);
 app.use('/api', authRouter);
 
+
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 export const viteNodeApp = app;

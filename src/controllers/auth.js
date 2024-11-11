@@ -1,5 +1,5 @@
-import User from "../model/user";
-import { registerSchema } from '../schemas/auth';
+import User from "../model/user.js";
+import { registerSchema } from '../schemas/auth.js';
 import bcryptjs from 'bcryptjs'
 export const signup = async (req, res) => {
     

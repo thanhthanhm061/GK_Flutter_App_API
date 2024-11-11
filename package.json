@@ -1,10 +1,11 @@
 {
   "name": "server_api_flutter",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
-  "scripts": {
-    "dev": "vite"
-  },
+ "scripts": {
+  "start": "node src/app.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
