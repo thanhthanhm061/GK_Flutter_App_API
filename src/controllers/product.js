@@ -3,7 +3,7 @@ import Product from "../model/product.js";
 // Lấy tất cả sản phẩm
 export const getProducts = async (req, res) => {
     try {
-        const data = await Product.find();
+        const data = await Product.find().limit(10);
         if (data.length === 0) {
             return res.status(404).json({ message: "No products found" });
         }
