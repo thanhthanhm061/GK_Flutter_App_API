@@ -1,6 +1,8 @@
 import User from "../model/user.js";
 import { registerSchema } from '../schemas/auth.js';
 import bcryptjs from 'bcryptjs'
+
+//Siginup
 export const signup = async (req, res) => {
     
         // Lấy dữ liệu từ yêu cầu
@@ -44,4 +46,27 @@ export const signup = async (req, res) => {
         user
       })
    
+};
+
+export const signin = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Tìm người dùng theo email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: "Email hoặc mật khẩu không đúng" });
+        }
+
+        // Kiểm tra mật khẩu
+        const isMatch = await bcryptjs.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Email hoặc mật khẩu không đúng" });
+        }
+
+        // Nếu đăng nhập thành công
+        return res.status(200).json({ message: "Đăng nhập thành công" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };

@@ -2,12 +2,10 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-    name:{
-        type:String,
-    },
-    price: {
-        type: Number,
-    },
+    title: { type: String, required: true },
+    artist: { type: String, required: true },
+    audioUrl: { type: String, required: true },  // Link đến file âm thanh
+    lyrics: { type: String, required: true },    // Lời bài hát
  },
   {timestamps: true, versionKey: false}
 );
