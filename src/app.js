@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 connectDB(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 10000, // Thời gian timeout 20 giây
+    serverSelectionTimeoutMS: 30000, // Thời gian timeout 20 giây
   })
   .then(() => console.log("Kết nối thành công tới MongoDB"))
   .catch((err) => console.error("Lỗi kết nối MongoDB:", err));
@@ -31,7 +31,7 @@ app.use('/api', authRouter);
 export const viteNodeApp = app;
 
 // Khởi động server
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
