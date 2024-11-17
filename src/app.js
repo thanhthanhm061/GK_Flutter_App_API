@@ -14,7 +14,6 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // connect db
-// connectDB(process.env.DB_URI);
 connectDB(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -31,7 +30,7 @@ app.use('/api', authRouter);
 export const viteNodeApp = app;
 
 // Khởi động server
-const port = process.env.port || 3000;
+const port = process.env.port || 8080;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
