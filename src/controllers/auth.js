@@ -67,30 +67,54 @@ export const signin = async (req, res) => {
     }
 };
 
-// Hàm lấy thông tin người dùng
+// // Hàm lấy thông tin người dùng
+// export const getUserInfo = async (req, res) => {
+//     try {
+//         // Lấy token từ header Authorization
+//         const token = req.header('Authorization');
+//         if (!token) {
+//             return res.status(401).json({ message: 'Bạn cần đăng nhập để truy cập thông tin này' });
+//         }
+
+//         // Xác thực token
+//         const decoded = jwt.verify(token, 'your-secret-key');  // Sử dụng key đã dùng để tạo token
+
+//         // Lấy thông tin người dùng từ cơ sở dữ liệu
+//         const user = await User.findById(decoded.userId);
+//         if (!user) {
+//             return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+//         }
+
+//         // Loại bỏ mật khẩu trong thông tin trả về
+//         user.password = undefined;
+
+//         // Trả về thông tin người dùng
+//         return res.status(200).json({ user });
+//     } catch (error) {
+//         return res.status(500).json({ message: error.message });
+//     }
+// };
 export const getUserInfo = async (req, res) => {
     try {
         // Lấy token từ header Authorization
-        const token = req.header('Authorization');
-        if (!token) {
-            return res.status(401).json({ message: 'Bạn cần đăng nhập để truy cập thông tin này' });
+        const authHeader = req.header("Authorization");
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Bạn cần đăng nhập để truy cập thông tin này." });
         }
+        const token = authHeader.split(" ")[1];
 
         // Xác thực token
-        const decoded = jwt.verify(token, 'your-secret-key');  // Sử dụng key đã dùng để tạo token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Lấy thông tin người dùng từ cơ sở dữ liệu
-        const user = await User.findById(decoded.userId);
+        const user = await User.findById(decoded.userId).select("-password");
         if (!user) {
-            return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+            return res.status(404).json({ message: "Không tìm thấy người dùng." });
         }
-
-        // Loại bỏ mật khẩu trong thông tin trả về
-        user.password = undefined;
 
         // Trả về thông tin người dùng
         return res.status(200).json({ user });
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: "Lỗi khi lấy thông tin người dùng.", error: error.message });
     }
 };

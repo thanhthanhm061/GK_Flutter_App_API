@@ -3,7 +3,8 @@ import { signin, signup ,getUserInfo} from "../controllers/auth.js";
 
 const router = express.Router();
 
-router.get(`/userinfor`,getUserInfo)
+router.get(`/usersinfo`,getUserInfo)
+
 router.post(`/signup`, signup);
 router.post(`/signin`, signin );
 
