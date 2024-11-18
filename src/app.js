@@ -4,6 +4,7 @@ import authRouter from './routes/auth.js';
 import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -12,7 +13,11 @@ const app = express();
 // middleware
 app.use(express.json());
 app.use(morgan('dev'));
-
+app.use(cors({
+  origin: ['http://localhost:8080', 'https://gk-flutter-app-api.onrender.com'], // Chỉ cho phép các domain này
+  methods: ['GET', 'POST'], // Chỉ cho phép các phương thức HTTP cụ thể
+  credentials: true, // Cho phép gửi cookie hoặc header xác thực
+}));
 // connect db
 connectDB(process.env.DB_URI, {
     useNewUrlParser: true,
