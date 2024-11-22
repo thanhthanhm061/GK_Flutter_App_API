@@ -42,30 +42,30 @@ export const signup = async (req, res) => {
 };
 
 // Hàm đăng nhập người dùng và trả về token
-export const signin = async (req, res) => {
-    const { email, password } = req.body;
 
-    try {
-        // Tìm người dùng theo email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ message: "Email hoặc mật khẩu không đúng" });
+
+    export const signin = async (req, res) => {
+        const { email, password } = req.body;
+    
+        try {
+            const user = await User.findOne({ email });
+            if (!user) {
+                return res.status(400).json({ message: "Email hoặc mật khẩu không đúng" });
+            }
+    
+            const isMatch = await bcryptjs.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: "Email hoặc mật khẩu không đúng" });
+            }
+    
+            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    
+            return res.status(200).json({ message: "Đăng nhập thành công", token });
+        } catch (error) {
+            console.error("Error in signin:", error); // Ghi chi tiết lỗi
+            return res.status(500).json({ message: error.message });
         }
-
-        // Kiểm tra mật khẩu
-        const isMatch = await bcryptjs.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: "Email hoặc mật khẩu không đúng" });
-        }
-
-        // Tạo token và trả về
-        const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
-
-        return res.status(200).json({ message: "Đăng nhập thành công", token });
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
-};
+    };
 
 // // Hàm lấy thông tin người dùng
 // export const getUserInfo = async (req, res) => {
