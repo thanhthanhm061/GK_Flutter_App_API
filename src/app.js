@@ -29,10 +29,14 @@ app.use(express.urlencoded({ extended: true }));
 
 // middleware
 app.use(morgan('dev'));
+// app.use(cors({
+//   origin: ['http://localhost:3000', 'https://gk-flutter-app-api.onrender.com'], 
+//   methods: ['GET', 'POST'],
+//   credentials: true, 
+// }));
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://gk-flutter-app-api.onrender.com'], 
-  methods: ['GET', 'POST'],
-  credentials: true, 
+  origin: "*", 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Nếu cần thêm các phương thức khác
 }));
 
 // connect db
