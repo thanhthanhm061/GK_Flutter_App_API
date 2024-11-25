@@ -71,14 +71,13 @@ export const signup = async (req, res) => {
         // Tạo token
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Trả về thông tin người dùng (không bao gồm mật khẩu) và URL để chuyển hướng
         user.password = undefined;
 
         return res.status(201).json({
             message: "Đăng ký thành công",
             user,
             token,
-            redirectUrl: "/products", 
+            redirectUrl: "/api/signin", 
         });
     } catch (error) {
         return res.status(500).json({ message: "Lỗi server: " + error.message });
