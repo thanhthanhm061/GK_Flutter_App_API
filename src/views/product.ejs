@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sản phẩm</title>
+</head>
+<body>
+  <h1>Danh sách sản phẩm</h1>
+  <ul>
+    <% products.forEach(product => { %>
+      <li>
+        <h2><%= product.title %> - <%= product.artist %></h2>
+        <audio controls>
+          <source src="<%= product.audioUrl %>" type="audio/mp3">
+        </audio>
+        <p><%= product.lyrics %></p>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

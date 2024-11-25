@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Đăng nhập vào tài khoản</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Đăng nhập</button>
+        </form>
+
+        <p>Chưa có tài khoản? <a href="/api/signup">Đăng ký</a></p>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Ngăn gửi form theo cách truyền thống
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/signin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message);
+                    // Chuyển hướng đến trang products
+                    window.location.href = data.redirectUrl;
+                } else {
+                    alert(data.message || "Đăng nhập thất bại");
+                }
+            } catch (error) {
+                console.error("Lỗi kết nối:", error);
+                alert("Lỗi kết nối đến server");
+            }
+        });
+    </script>
+</body>
+</html>

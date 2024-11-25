@@ -26,7 +26,6 @@ export const getProducts = async (req, res) => {
     }
 };
 
-
 // Lấy sản phẩm theo ID
 export const getProductsById = async (req, res) => {
     try {
@@ -63,6 +62,7 @@ export const addProducts = async (req, res) => {
 
 // Xóa sản phẩm theo ID
 export const deleteProducts = async (req, res) => {
+
     try {
         const data = await Product.findOneAndDelete({ _id: req.params.id });
         if (!data) {
